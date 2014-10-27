@@ -1,7 +1,14 @@
 {
-  "name": "angularjs-guthub",
-  "version": "0.0.1",
-  "dependencies": {
-    "express": "3.1.0"
-  }
+    "name": "ANG05",
+    "version": "0.0.1",
+    "main": "web-server.js",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/JeffRisberg/ANG05.git"
+    },
+    "dependencies": {
+        "express": "4.10.0",
+        "body-parser": "~1.6.6",
+        "method-override": "~2.0.2"
+    }
 }

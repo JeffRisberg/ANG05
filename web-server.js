@@ -1,13 +1,18 @@
-var express = require("express"),
-    app = express(),
-    port = parseInt(process.env.PORT, 10) || 3000;
+// modules =================================================
+var express = require('express');
+var app = express();
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
 
-app.configure(function () {
-    app.use(express.methodOverride());
-    app.use(express.bodyParser());
-    app.use(express.static(__dirname + '/app'));
-    app.use(app.router);
-});
+var port = process.env.PORT || 3000; // set our port
+
+// get all data/stuff of the body (POST) parameters
+app.use(bodyParser.json()); // parse application/json
+app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
+app.use(bodyParser.urlencoded({ extended: true })); // parse application/x-www-form-urlencoded
+
+app.use(methodOverride('X-HTTP-Method-Override')); // override with the X-HTTP-Method-Override header in the request. simulate DELETE/PUT
+app.use(express.static(__dirname + '/public')); // set the static files location /public/img will be /img for users
 
 var recipes_map = {
     '1': {
@@ -27,7 +32,7 @@ var recipes_map = {
         id: 2,
         'title': 'Tacos',
         'description': 'Warm beef tacos',
-        'instructions': '1.  Cook 1 pound of ground beef.  2. Drain and add taco seasoning.  3. Simmer to boil for 20 minutes.  4.  spoon out onto tortillas',
+        'instructions': '1. Cook 1 pound of ground beef.\n2. Drain and add taco seasoning.\n3. Simmer to boil for 20 minutes.\n4. Spoon out onto tortillas',
         ingredients: [
             {amount: 1, amountUnits: 'pounds', ingredientName: 'Ground beef'},
             {amount: 1, amountUnits: 'pouch', ingredientName: 'Seasoning'},
@@ -84,3 +89,4 @@ app.post('/recipes/:id', function (req, res) {
 
 app.listen(port);
 console.log('Now serving the app at http://localhost:' + port + '/');
+exports = module.exports = app; 						// expose app
