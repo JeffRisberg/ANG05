@@ -4,12 +4,12 @@ var app = angular.module('guthub',
 app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
     // for any unmatched url, redirect to home
-    $urlRouterProvider.otherwise("/");
+    $urlRouterProvider.otherwise("/recipe");
 
     $stateProvider
         .state({
             name: "recipe",
-            url: '/',
+            url: '/recipe',
             templateUrl: 'templates/recipe/main.html'
         })
         .state({
@@ -25,10 +25,10 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
         })
         .state({
             name: "recipe.show",
-            url: '/view/:recipeId',
+            url: '/show/:recipeId',
             templateUrl: 'templates/recipe/show.html',
-            controller: 'ViewCtrl',
-            resolve: {
+            controller: 'ShowCtrl',
+            xresolve: {
                 recipe: ["RecipeLoader", function (RecipeLoader) {
                     return RecipeLoader();
                 }]

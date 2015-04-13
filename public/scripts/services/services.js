@@ -19,10 +19,13 @@ services.factory('MultiRecipeLoader', ['Recipe', '$q', function (Recipe, $q) {
     };
 }]);
 
-services.factory('RecipeLoader', ['Recipe', '$route', '$q', function (Recipe, $route, $q) {
+services.factory('RecipeLoader', ['Recipe', '$q', function (Recipe, $q) {
     return function () {
         var delay = $q.defer();
-        Recipe.get({id: $route.current.params.recipeId}, function (recipe) {
+
+        var recipeId = 1;
+
+        Recipe.get({id: recipeId}, function (recipe) {
             delay.resolve(recipe);
         }, function () {
             delay.reject('Unable to fetch recipe ' + $route.current.params.recipeId);

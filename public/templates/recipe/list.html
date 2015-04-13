@@ -1,6 +1,7 @@
 <h3>Recipe List</h3>
+
 <div class="recipes">
     <div ng-repeat="recipe in recipes">
-        <div><a ng-href="/#/show/{{recipe.id}}">{{recipe.title}}</a></div>
+        <div><a ui-sref="recipe.show({recipeId: recipe.id})">{{recipe.title}}</a></div>
     </div>
 </div>
