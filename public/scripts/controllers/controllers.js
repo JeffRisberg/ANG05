@@ -5,26 +5,32 @@ app.controller('ListCtrl', ['$scope', '$state', 'recipes', function ($scope, $st
 }]);
 
 
-app.controller('ShowCtrl', ['$scope', '$state', 'Recipe', function ($scope, $state, Recipe) {
-    console.log($state);
-    console.log($state.params);
+app.controller('ShowCtrl', ['$scope', '$state', '$q', 'Recipe', function ($scope, $state, $q, Recipe) {
+    var delay = $q.defer();
 
-    var recipeId = 1;
-    Recipe.get({id: recipeId}, function (recipe) {
+    var recipeId = parseInt($state.params.recipeId);
+
+    $scope.recipe = Recipe.get({id: recipeId}, function (recipe) {
         delay.resolve(recipe);
     }, function () {
         delay.reject('Unable to fetch recipe ' + recipeId);
     });
-    //return delay.promise;
-    //$scope.recipe = recipe;
 
     $scope.edit = function () {
         $state.go('recipe.edit', {recipeId: recipe.id});
     };
 }]);
 
-app.controller('EditCtrl', ['$scope', '$state', 'recipe', function ($scope, $state, recipe) {
-    $scope.recipe = recipe;
+app.controller('EditCtrl', ['$scope', '$state', '$q', 'Recipe', function ($scope, $state, $q, Recipe) {
+    var delay = $q.defer();
+
+    var recipeId = parseInt($state.params.recipeId);
+
+    $scope.recipe = Recipe.get({id: recipeId}, function (recipe) {
+        delay.resolve(recipe);
+    }, function () {
+        delay.reject('Unable to fetch recipe ' + recipeId);
+    });
 
     $scope.save = function () {
         $scope.recipe.$save(function (recipe) {
