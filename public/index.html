@@ -3,18 +3,20 @@
 <head>
     <title>GutHub - Create and Share</title>
 
+    <link href="styles/bootstrap.css" rel="stylesheet">
+    <link href="styles/bootstrap-theme.css" rel="stylesheet">
+    <link href="styles/guthub.css" rel="stylesheet">
+
     <script src="angularjs/angular.min.js"></script>
     <script src="angularjs/plugins/angular-resource.min.js"></script>
     <script src="angularjs/plugins/angular-ui-router.min.js"></script>
     <script src="angularjs/plugins/ui-bootstrap-tpls.min.js"></script>
 
+    // This is the recommended application structure
+    <script src="app.js"></script>
     <script src="scripts/directives/directives.js"></script>
     <script src="scripts/services/services.js"></script>
     <script src="scripts/controllers/controllers.js"></script>
-
-    <link href="styles/bootstrap.css" rel="stylesheet">
-    <link href="styles/bootstrap-theme.css" rel="stylesheet">
-    <link href="styles/guthub.css" rel="stylesheet">
 </head>
 <body>
 <header>
@@ -26,11 +28,11 @@
 <div class="container">
     <div class="row">
         <div class="col-md-2">
-            <div><a href="/#/">Recipe List</a></div>
-            <div><a href="/#/new">New Recipe</a></div>
+            <div><a ui-sref="recipe.list">Recipe List</a></div>
+            <div><a ui-sref="recipe.new">New Recipe</a></div>
         </div>
         <div class="col-md-10">
-            <div ng-view></div>
+            <div ui-view></div>
         </div>
     </div>
 </div>
