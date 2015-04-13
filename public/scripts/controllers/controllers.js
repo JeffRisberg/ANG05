@@ -1,55 +1,53 @@
 'use strict';
 
-app.controller('ListCtrl', ['$scope', 'recipes',
-    function($scope, recipes) {
-  $scope.recipes = recipes;
+app.controller('ListCtrl', ['$scope', '$state', 'recipes', function ($scope, $state, recipes) {
+    $scope.recipes = recipes;
 }]);
 
-app.controller('ViewCtrl', ['$scope', '$location', 'recipe',
-    function($scope, $location, recipe) {
-  $scope.recipe = recipe;
 
-  $scope.edit = function() {
-    $location.path('/edit/' + recipe.id);
-  };
+app.controller('ViewCtrl', ['$scope', '$state', 'recipe', function ($scope, $state, recipe) {
+    $scope.recipe = recipe;
+
+    $scope.edit = function () {
+        $state.go('recipe.edit', {recipeId: recipe.id});
+    };
 }]);
 
-app.controller('EditCtrl', ['$scope', '$location', 'recipe',
-    function($scope, $location, recipe) {
-  $scope.recipe = recipe;
+app.controller('EditCtrl', ['$scope', '$state', 'recipe', function ($scope, $state, recipe) {
+    $scope.recipe = recipe;
 
-  $scope.save = function() {
-    $scope.recipe.$save(function(recipe) {
-      $location.path('/view/' + recipe.id);
+    $scope.save = function () {
+        $scope.recipe.$save(function (recipe) {
+            $state.go('recipe.show', {recipeId: recipe.id});
+        });
+    };
+
+    $scope.remove = function () {
+        delete $scope.recipe;
+        $state.go('recipe.list');
+    };
+}]);
+
+app.controller('NewCtrl', ['$scope', '$state', 'Recipe', function ($scope, $state, Recipe) {
+    $scope.recipe = new Recipe({
+        ingredients: [
+            {}
+        ]
     });
-  };
 
-  $scope.remove = function() {
-    delete $scope.recipe;
-    $location.path('/');
-  };
+    $scope.save = function () {
+        $scope.recipe.$save(function (recipe) {
+            $state.go('recipe.show', {recipeId: recipe.id});
+        });
+    };
 }]);
 
-app.controller('NewCtrl', ['$scope', '$location', 'Recipe',
-    function($scope, $location, Recipe) {
-  $scope.recipe = new Recipe({
-    ingredients: [ {} ]
-  });
-
-  $scope.save = function() {
-    $scope.recipe.$save(function(recipe) {
-      $location.path('/view/' + recipe.id);
-    });
-  };
-}]);
-
-app.controller('IngredientsCtrl', ['$scope',
-    function($scope) {
-  $scope.addIngredient = function() {
-    var ingredients = $scope.recipe.ingredients;
-    ingredients[ingredients.length] = {};
-  };
-  $scope.removeIngredient = function(index) {
-    $scope.recipe.ingredients.splice(index, 1);
-  };
+app.controller('IngredientsCtrl', ['$scope', function ($scope) {
+    $scope.addIngredient = function () {
+        var ingredients = $scope.recipe.ingredients;
+        ingredients[ingredients.length] = {};
+    };
+    $scope.removeIngredient = function (index) {
+        $scope.recipe.ingredients.splice(index, 1);
+    };
 }]);

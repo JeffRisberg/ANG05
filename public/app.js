@@ -1,19 +1,18 @@
-console.log("top of app.js");
-
 var app = angular.module('guthub',
-    ['ui-router', 'ngResource', 'guthub.directives', 'guthub.services']);
-
-console.log("ping 1");
+    ['ui.router', 'ngResource', 'guthub.directives', 'guthub.services']);
 
 app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
-
-    console.log("ping 2");
 
     // for any unmatched url, redirect to home
     $urlRouterProvider.otherwise("/");
 
-    $stateProvider.
-        state({
+    $stateProvider
+        .state({
+            name: "recipe",
+            url: '/',
+            templateUrl: 'templates/recipe/main.html'
+        })
+        .state({
             name: "recipe.list",
             url: '/',
             templateUrl: 'templates/recipe/list.html',
@@ -25,7 +24,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
             }
         })
         .state({
-            name: 'recipe.show',
+            name: "recipe.show",
             url: '/view/:recipeId',
             templateUrl: 'templates/recipe/show.html',
             controller: 'ViewCtrl',
@@ -36,7 +35,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
             }
         })
         .state({
-            name: 'recipe.edit',
+            name: "recipe.edit",
             url: '/edit/:recipeId',
             templateUrl: 'templates/recipe/edit.html',
             controller: 'EditCtrl',
@@ -52,7 +51,4 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
             templateUrl: 'templates/recipe/edit.html',
             controller: 'NewCtrl'
         });
-    console.log("end of config");
 }]);
-
-console.log("bttom of app.js");
